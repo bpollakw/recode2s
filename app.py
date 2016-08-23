@@ -36,6 +36,7 @@ def index():
 		seq = request.form["seq"]
 		seqtype = request.form["seqtype"]
 		name = request.form["name"]
+		seq = seq.upper()	
 		
 		if seq !="":
 			return redirect(url_for('recode', seq=seq, seqtype=seqtype, name=name))
