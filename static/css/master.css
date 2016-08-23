@@ -10,7 +10,7 @@
 *{
 	font-family: Lato, Helvetica, Arial, Sans-serif;
 	font-weight: normal;
-	color: #777;
+	color: #555;
 	margin: 0;
 	padding: 0;
 	-moz-box-sizing: border-box;
@@ -36,7 +36,6 @@ input.text-input{
 h1{
 	position: relative;
 	text-align: center;
-	margin:0 0 20px;
 	font-size:36px;
 	padding-bottom: 20px;
 }
@@ -57,19 +56,23 @@ h2.subtitle{
 h2.section{
 	font-size: 25px;
 	color:#39c;
-  font-weight:400;
+  	font-weight:400;
 }
 
 h2.section a{
 	color:#39c;
 }
+h3{
+	margin-bottom:20px;
+}
 
-h2.section:hover a{
+
+a:hover{
 	color: black;
 }
 
 a {
-  color:#39c;
+  color:#b30000;
   font-weight:400;
   text-decoration:none;
 }
@@ -96,6 +99,12 @@ th, td {
 	float: right;
 }
 
+/* Layout */
+.title{
+	top: 30px; 
+	margin-bottom: 30px;
+}
+
 .center-form{
 	margin-top: 20px;
 	margin-left: auto;
@@ -109,11 +118,15 @@ th, td {
 
 .small-label{
 	font-size: 12px;
+	margin-right: 10px;
+	margin-top: 3px;
+
 }
 
 .big-label{
 	font-size: 16px;
 	margin-bottom: 7px;
+	font-weight: 600;
 }
 
 .button{
@@ -122,16 +135,18 @@ th, td {
 	background-color: #BBB;
 	font-size: 12px;
 	font-weight: 600;
-	color: #555;
+	color: #333;
 	width: auto;
-	padding-left: 0px;
-	padding-right: 0px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 4px;
+	padding-bottom: 4px;
 	margin-left: 10px;
 }
 
 .button:hover{
-	color : white;
-	background-color: #777;
+	color : #b30000;
+	background-color: #eee;
 }
 
 
@@ -142,11 +157,10 @@ th, td {
 	position: relative;
 }
 
-.top-container{
-	position: relative;
-	height: 100%;
-	overflow: hidden;
-	overflow-y: scroll;
+.description{
+	width: 70%;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .content{
@@ -165,7 +179,7 @@ th, td {
 	position: absolute;
 	bottom: 0px;
 	width: 100%;
-	height: 80px;
+	height: 60px;
 	background-color: #222;
 	color:white;
 	padding: 5px;
@@ -193,16 +207,25 @@ th, td {
 }
 
 
-/* Blast */
+/* Form */
 
-.blast-form{
+.form{
 	position: relative;
 	margin: auto;
 	margin-top: 20px;
 	width: 50%;
 }
 
-.blast-search{
+.name{
+	border-radius: 5px;
+	border: 1px solid #CCC; 
+	outline:0;
+	padding: 2px;
+	margin-bottom: 3px;
+	
+}
+
+.textbox{
 	position: relative;
 	width: 100%;
 	min-height : 200px;
@@ -215,20 +238,35 @@ th, td {
 	margin-bottom: 5px;
 }
 
-.blast-parameters{
-	position: relative;
-	width: 300px;
-	border-spacing:5px;
+.clipboard{
 }
 
-.blast-parameters th, td{
-	border-bottom: none;
+#clipboard .button{
+	width: 100px;
 }
 
-.e-col{
-	width: 50px;
+#clipboard .tooltipped {
+    position: relative;
 }
 
-.p-col{
-	width: 75px;
+#clipboard .tooltipped::after {
+	padding: 5px 8px;
+    position: absolute;
+    z-index: 1000000;
+    top:100%;
+    right:50%;
+    color: #fff;
+	/*font: normal normal 11px / 1.5 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";*/
+    text-align: center;
+    text-decoration: none;
+    word-wrap: break-word;
+    white-space: pre;
+    content: attr(aria-label);
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 3px;
+    -webkit-font-smoothing: subpixel-antialiased
+}
+
+.selector{
+	margin-top:3px;
 }

@@ -4,6 +4,7 @@ backports.ssl-match-hostname==3.5.0.1
 #bcrypt==2.0.0
 #bdist-mpkg==0.5.0
 biopython==1.64
+gevent==1.1.2
 #blinker==1.4
 #bonjour-py==0.3
 #certifi==2016.2.28

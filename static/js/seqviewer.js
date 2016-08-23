@@ -1,82 +1,3 @@
-function seqviewer(sequence, element) {
-		// var Sequence = require("sequence-viewer");
-		seqViewer = new Sequence(sequence);
-		
-		seqViewer.render(element, {
-			'charsPerLine': 100,
-			'search': true,
-			'sequenceMaxHeight': "385px",
-			'title': "Gene"
-		});
-			  
-		var legend = [
-			{name: "Promoter", color: "#FFFF00", underscore: false},
-			{name: "Gene", color: "#00E100", underscore: false},
-			{name: "mRNA", color: "#FF0000", underscore: false},
-			{name: "ORF",color: "#0096FF",underscore: false}
-		];
-
-		seqViewer.addLegend(legend);		
-	}
-
-function highlight_seq(element, color){
-
-	var sequenceCoverage = [];
-	// WARNING removed local variable definition! - RECODE
-	subSeq = "";
-	strand = element.strand
-	type = element.type
-	
-	var elStart, elEnd;
-	var pos, end;
-
-	for (var i = 0; i < element.subFeatures.length; i++){
-		if (element.strand == '+'){
-			pos = element.position;
-			elStart = pos+element.subFeatures[i].position-1;
-			elEnd = pos+element.subFeatures[i].position+element.subFeatures[i].length;
-		}
-		else{
-			end = element.position + element.length;
-			elStart = end-(element.subFeatures[i].position+element.subFeatures[i].length)-1;
-			elEnd = end-element.subFeatures[i].position;
-		}
-
-		if (color == "yellow"){
-			sequenceCoverage.push({
-			start:		elStart,
-			end:		elEnd,
-			bgcolor:	color,
-			color:		"black",
-			underscore:	false   
-			});
-		}
-		else{
-			sequenceCoverage.push({
-			start:		elStart,
-			end:		elEnd,
-			bgcolor:	color,
-			color:		"white",
-			underscore:	false 
-			});
-		}
-
-		subSeq = subSeq + seq.substring(elStart, elEnd);
-	}
-
-	seqViewer.coverage(sequenceCoverage);
-
-	var button = document.getElementById('clipboard_btn');
-	button.setAttribute('data-clipboard-text', subSeq)
-}
-
-// Functions for RECODE page
-
-function go_recode(cdsName){
-	link = "/recode?"+"seq="+subSeq+"&strand="+strand+"&type="+type+"&cdsName="+cdsName
-	location.href=link;
-}
-
 function recoder(sequence, element, name) {
 		seqViewer = new Sequence(sequence);
 		
@@ -136,7 +57,7 @@ function highlight_sites(){
 	seqViewer.coverage(sequenceCoverage);
 }
 
-function recode(seq, newseq, type){	
+function recode(name, seq, newseq, type){	
 				if (type == 'cds' && seq.substring(0,3) == "ATG"){
 					if (typeof changed !== 'undefined'){
 
@@ -147,18 +68,22 @@ function recode(seq, newseq, type){
 					}
 				}
 				else if (type == 'cds' && seq.substring(0,3) != "ATG"){
-					alert("CDS does not start with ATG. Check sequence!")
+					alert("cds does not start with ATG. Check sequence!")
 				}
-				else if (type == 'promoter'){
+				else if (type == 'Promoter'){
 						front = "GGTCTCAGGAG"
 						back = "TACTCGAGACC"
 				}
+				else if (type == 'Terminator'){
+						front = "GGTCTCAGGAGNNNN"
+						back = "TACTCGAGACCNNNN"
+				}
 				else{
-					alert("Recode is for promoters and cdss")
+					alert("Recode is for promoters, cdss and terminators")
 				}
 				newseq = front+newseq+back
 				recodedseq = newseq
-				recoder(newseq, '#seqView', 'Recoded');
+				recoder(newseq, '#seqView', name+" - Recoded");
 				delete sequenceCoverage;
 				delete legend;
 				var highlight = [0,newseq.length-6]
@@ -169,6 +94,11 @@ function recode(seq, newseq, type){
 				legende("Overhangs","red");
 				add_legend();
 				highlight_sites();
+				document.getElementById("message").innerHTML = "BsaI & SapI sites recoded, BsaI flanking sequences and overhangs added.";
+				
+				var button = document.getElementById('clipboard_btn');
+				button.setAttribute('data-clipboard-text', recodedseq)
+
 					}
   function change_overhangs(i) {
     if (i == "N"){
@@ -185,7 +115,7 @@ function recode(seq, newseq, type){
 		delete changed;
    	}	  
   }
-function export_GB(cdsName, seqtype){
-	link = "/export/recode?"+"seq="+recodedseq+"&type="+seqtype+"&cdsName="+cdsName
+function export_GB(name, seqtype){
+	link = "/export?"+"seq="+recodedseq+"&type="+seqtype+"&name="+name
 	location.href=link;
 }
