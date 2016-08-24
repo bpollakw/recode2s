@@ -118,7 +118,7 @@ function recode(name, seq, newseq, type){
 		changed ="yes";
 		front = "GGTCTCACC";
 		back = "AATGCGAGACC";
-		add=8;
+		add=9;
 	}
 	else if (i == "C"){
 		changed ="yes";
