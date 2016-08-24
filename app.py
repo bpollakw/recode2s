@@ -51,20 +51,54 @@ def recode():
 	seqtype = request.args.get('seqtype','')
 	name = request.args.get('name','')
 
-	BsaI = ("GGTCTC", "GAGACC")
-	SapI = ("GCTCTTC","GAAGAGC")
+	BsaI_F = "GGTCTC"
+	BsaI_F_replace = ["GGACTC","GGTCCC","GGTATC"]
+	BsaI_R = "GAGACC"
+	BsaI_R_replace = ["GAAACC","GAGATC" ,"GAGGCC"]
+	SapI_F = "GCTCTTC"
+	SapI_F_replace = ["GCCCTTC","GCTCGTC","GCTGTTC"]
+	SapI_R = "GAAGAGC"
+	SapI_R_replace = ["GAGGAGC","GAAGGGC","GAAAAGC"]
 	
-	BsaI_sites = []
-	SapI_sites = []
+#	ATGGGTCTCAGGTCTCAAGGTCTCAAAGGTCTCGGTCTCGGTCTCGAGACCAAGAGACCAAAGAGACCGAGACCAGAGACCGAGACCGCTCTTCAGCTCTTCAAGCTCTTCAAAGCTCTTCGAAGAGCAGAAGAGCAAGAAGAGCAAAGAAGAGCGAAGAGC
 	
-	for search in BsaI:
-		BsaI_sites = BsaI_sites + recfind(search, seq)
-	for search in SapI:
-		SapI_sites = SapI_sites + recfind(search, seq)
-		
-	newseq = seq.replace("GGTCTC","GGACTC").replace("GAGACC","GAGACG").replace("GCTCTTC","GCGCTTC").replace("GAAGAGC","GAAGAAC")
+	BsaI_sitesF = []
+	BsaI_sitesR = []
+	SapI_sitesF = []
+	SapI_sitesR = []
+	
+	BsaI_sitesF = BsaI_sitesF + recfind(BsaI_F, seq)
+	BsaI_sitesR = BsaI_sitesR + recfind(BsaI_R, seq)
+	SapI_sitesF = SapI_sitesF + recfind(SapI_F, seq)
+	SapI_sitesR = SapI_sitesR + recfind(SapI_R, seq)
+#	for search in SapI:
+#		SapI_sites = SapI_sites + recfind(search, seq)
+	orgseq = seq
+	for site in BsaI_sitesF:
+		for i in range(3):
+			if (site % 3 == i):
+				seq = seq[:site] + BsaI_F_replace[i] + seq[site + 6:]
+	
+	for site in BsaI_sitesR:
+		for i in range(3):
+			if (site % 3 == i):
+				seq = seq[:site] + BsaI_R_replace[i] + seq[site + 6:]
+	
+	for site in SapI_sitesF:
+		for i in range(3):
+			if (site % 3 == i):
+				seq = seq[:site] + SapI_F_replace[i] + seq[site + 7:]
+				
+	for site in SapI_sitesR:
+		for i in range(3):
+			if (site % 3 == i):
+				seq = seq[:site] + SapI_R_replace[i] + seq[site + 7:]
+					
+	BsaI_sites = BsaI_sitesF+BsaI_sitesR
+	SapI_sites = SapI_sitesF+SapI_sitesR
+	
 
-	return render_template('recode.html', seq=seq, newseq=newseq, seqtype=seqtype, name=name,BsaI=BsaI_sites, SapI=SapI_sites)
+	return render_template('recode.html', seq=orgseq, newseq=seq, seqtype=seqtype, name=name,BsaI=BsaI_sites, SapI=SapI_sites)
 
 @app.route('/export')
 def export():

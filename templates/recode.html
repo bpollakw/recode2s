@@ -27,7 +27,7 @@
 			<div id="clipboard">
 				<button id="clipboard_btn" class="button right" data-clipboard-text="">Copy</button>
 				<button id="download_gb_btn" class="button right" onclick="export_GB('{{name}}','{{seqtype}}')">Genbank file</button>
-				<button id="recode_btn" class="button right" onclick="recode('{{name}}','{{seq}}','{{newseq}}', '{{seqtype}}')">Recode</button>
+				<button id="recode_btn" class="button right" onclick="recode('{{name}}','{{seq}}','{{newseq}}', '{{seqtype}}','{{BsaI}}','{{SapI}}')">Recode</button>
 			</div>
 				
 				{% if seqtype == "cds" %}
@@ -52,7 +52,8 @@
 			clipboard.on('error', function(e) {
 				showTooltip(e.trigger, fallbackMessage(e.action));
 			});
-			
+			BsaI = {{BsaI}};
+			SapI = {{SapI}};
 			seq = "{{seq}}";
 			recoder(seq, "#seqView", "{{name}}"+" - Original");
 			legende("BsaI", "blue");

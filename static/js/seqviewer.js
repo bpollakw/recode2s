@@ -58,46 +58,59 @@ function highlight_sites(){
 }
 
 function recode(name, seq, newseq, type){	
-				if (type == 'cds' && seq.substring(0,3) == "ATG"){
-					if (typeof changed !== 'undefined'){
 
-					}
-					else if(typeof changed == 'undefined'){
-						front = "GGTCTCAA";
-						back = "GCTTCGAGACC";
-					}
-				}
-				else if (type == 'cds' && seq.substring(0,3) != "ATG"){
-					alert("cds does not start with ATG. Check sequence!")
-				}
-				else if (type == 'Promoter'){
-						front = "GGTCTCAGGAG"
-						back = "TACTCGAGACC"
-				}
-				else if (type == 'Terminator'){
-						front = "GGTCTCAGGAGNNNN"
-						back = "TACTCGAGACCNNNN"
-				}
-				else{
-					alert("Recode is for promoters, cdss and terminators")
-				}
-				newseq = front+newseq+back
-				recodedseq = newseq
-				recoder(newseq, '#seqView', name+" - Recoded");
-				delete sequenceCoverage;
-				delete legend;
-				var highlight = [0,newseq.length-6]
-				var overhangs = [7,newseq.length-11]
-				sites(highlight,6,"blue");
-				sites(overhangs,4,"red");
-				legende("BsaI","blue");
-				legende("Overhangs","red");
-				add_legend();
-				highlight_sites();
-				document.getElementById("message").innerHTML = "BsaI & SapI sites recoded, BsaI flanking sequences and overhangs added.";
-				
-				var button = document.getElementById('clipboard_btn');
-				button.setAttribute('data-clipboard-text', recodedseq)
+	if (type == 'cds' && seq.substring(0,3) == "ATG"){
+		if (typeof changed !== 'undefined'){
+
+		}
+		else if(typeof changed == 'undefined'){
+			front = "GGTCTCAA";
+			back = "GCTTCGAGACC";
+			add=8;
+		}
+	}
+	else if (type == 'cds' && seq.substring(0,3) != "ATG"){
+		alert("cds does not start with ATG. Check sequence!")
+	}
+	else if (type == 'Promoter'){
+			front = "GGTCTCAGGAG"
+			back = "TACTCGAGACC"
+			add=11;
+	}
+	else if (type == 'Terminator'){
+			front = "GGTCTCAGGAGNNNN"
+			back = "TACTCGAGACCNNNN"
+			add=10;
+	}
+	else{
+		alert("Recode is for promoters, cdss and terminators")
+	}
+	newseq = front+newseq+back
+	recodedseq = newseq
+	recoder(newseq, '#seqView', name+" - Recoded");
+	delete sequenceCoverage;
+	delete legend;
+	var highlight = [0,newseq.length-6]
+	var overhangs = [7,newseq.length-11]
+	sites(highlight,6,"blue");
+	sites(overhangs,4,"red");
+	// WTF?
+	for (var i = 0; i < BsaI.length; i++){
+		sites([BsaI[i]+add],6,"green");
+	}
+	for (var i = 0; i < SapI.length; i++){
+		sites([SapI[i]+add],7,"green");
+	}
+
+	legende("BsaI","blue");
+	legende("Old sites","green");
+	legende("Overhangs","red");
+	add_legend();
+	highlight_sites();
+	document.getElementById("message").innerHTML = "BsaI & SapI sites recoded, BsaI flanking sequences and overhangs added.";
+
+	var button = document.getElementById('clipboard_btn');
+	button.setAttribute('data-clipboard-text', recodedseq)
 
 					}
   function change_overhangs(i) {
@@ -105,11 +118,13 @@ function recode(name, seq, newseq, type){
 		changed ="yes";
 		front = "GGTCTCACC";
 		back = "AATGCGAGACC";
+		add=8;
 	}
 	else if (i == "C"){
 		changed ="yes";
 		front = "GGTCTCATTCG";
 		back = "GCTTCGAGACC";
+		add=11;
    	}
    	else{ 
 		delete changed;
