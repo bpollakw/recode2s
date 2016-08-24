@@ -1,3 +1,4 @@
+import re
 import itertools
 import collections
 from flask import Flask, redirect, url_for, escape, request, render_template, make_response, flash, abort
@@ -36,7 +37,8 @@ def index():
 		seq = request.form["seq"]
 		seqtype = request.form["seqtype"]
 		name = request.form["name"]
-		seq = seq.upper()	
+		seq = seq.upper()
+		seq = re.sub(' ','',seq).strip()
 		
 		if seq !="":
 			return redirect(url_for('recode', seq=seq, seqtype=seqtype, name=name))
