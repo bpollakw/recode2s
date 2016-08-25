@@ -1,12 +1,12 @@
 {% extends "layout.html" %}
 {% block head %}
 	<!-- SEQVIEW -->
-	<script src="/static/js/sequence-viewer.bundle.js" type="text/javascript"></script>
-	<script src="/static/js/seqviewer.js"></script>
+	<script src="{{ url_for('static', filename='js/sequence-viewer.bundle.js')}}" type="text/javascript"></script>
+	<script src="{{ url_for('static', filename='js/seqviewer.js')}}"></script>
 	<!-- CLIPBOARD -->
 
-	<script src="/static/js/clipboard.min.js" type="text/javascript"></script>
-	<script src="/static/js/clipboard_tooltip.js"></script>
+	<script src="{{ url_for('static', filename='js/clipboard.min.js')}}" type="text/javascript"></script>
+	<script src="{{ url_for('static', filename='js/clipboard_tooltip.js')}}"></script>
 
 	<title>Recode2S - DNA recoding for type II-S cloning</title>
 	<meta name="description" content="DNA recoding to type II-S parts for CIDAR/MoClo cloning">

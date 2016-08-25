@@ -10,7 +10,8 @@ from Bio.SeqRecord import SeqRecord
 from Bio.SeqFeature import SeqFeature, FeatureLocation, CompoundLocation
 from Bio.Alphabet import IUPAC
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path="", static_folder="static")
+
 
 @app.errorhandler(404)
 def page_not_found(e):
