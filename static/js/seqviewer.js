@@ -72,16 +72,18 @@ function recode(name, seq, newseq, type){
 	else if (type == 'cds' && seq.substring(0,3) != "ATG"){
 		alert("cds does not start with ATG. Check sequence!")
 	}
-	else if (type == 'Promoter'){
+	else if (type == 'Promoter' && typeof changed == 'undefined'){
 			front = "GGTCTCAGGAG"
-			back = "TACTCGAGACC"
+			back = "CCATCGAGACC"
 			add=11;
 	}
-	else if (type == 'Terminator'){
-			front = "GGTCTCAGGAGNNNN"
-			back = "TACTCGAGACCNNNN"
-			add=10;
+	else if (type == 'Promoter' && typeof changed != 'undefined'){}
+	else if (type == 'Terminator' && typeof changed == 'undefined'){
+			front = "GGTCTCAGCTT"
+			back = "CGCTTGAGACC"
+			add=11;
 	}
+	else if (type == 'Terminator' && typeof changed != 'undefined'){}
 	else{
 		alert("Recode is for promoters, cdss and terminators")
 	}
@@ -117,13 +119,25 @@ function recode(name, seq, newseq, type){
     if (i == "N"){
 		changed ="yes";
 		front = "GGTCTCACC";
-		back = "AATGCGAGACC";
+		back = "AATGTGAGACC";
 		add=9;
 	}
 	else if (i == "C"){
 		changed ="yes";
 		front = "GGTCTCATTCG";
-		back = "GCTTCGAGACC";
+		back = "GCTTTGAGACC";
+		add=11;
+   	}
+  	else if (i == "P"){
+		changed ="yes";
+		front = "GGTCTCAGGAG";
+		back = "TACTTGAGACC";
+		add=11;
+   	}
+  	else if (i == "T"){
+		changed ="yes";
+		front = "GGTCTCAGGTA";
+		back = "CGCTTGAGACC";
 		add=11;
    	}
    	else{ 
