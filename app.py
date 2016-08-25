@@ -13,9 +13,9 @@ from Bio.Alphabet import IUPAC
 app = Flask(__name__, static_url_path="", static_folder="static")
 
 
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html', title='404'), 404
+#@app.errorhandler(404)
+#def page_not_found(e):
+#    return render_template('404.html', title='404'), 404
 
 @app.errorhandler(500)
 def internal_error(e):
