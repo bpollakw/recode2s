@@ -3,7 +3,7 @@ import os
 import re
 import itertools
 import collections
-from flask import Flask, redirect, url_for, escape, request, render_template, make_response, flash, abort
+from flask import Flask, session, redirect, url_for, escape, request, render_template, make_response, flash, abort
 
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
@@ -11,6 +11,7 @@ from Bio.SeqFeature import SeqFeature, FeatureLocation, CompoundLocation
 from Bio.Alphabet import IUPAC
 
 app = Flask(__name__, static_url_path="", static_folder="static")
+app.secret_key = 'HJKDGSA&^D%HJKN.zczxcoasdk2194uru'
 
 
 #@app.errorhandler(404)
@@ -38,24 +39,26 @@ def index():
 	
 	if request.method == 'POST':
 		seq = request.form["seq"]
-		seqtype = request.form["seqtype"]
-		name = request.form["name"]
 		seq = seq.upper()
 		seq = re.sub(' ','',seq).strip()
+		session['seq'] = seq
+		session['seqtype'] = request.form["seqtype"]
+		session['name'] = request.form["name"]
 		
 		if seq !="":
-			return redirect(url_for('recode', seq=seq, seqtype=seqtype, name=name))
+			return redirect(url_for('recode'))
 		else:
 			abort(404)
 			
 	return render_template('home.html')
 
 @app.route('/recode')
-def recode():
-	seq = request.args.get('seq','')
-	seqtype = request.args.get('seqtype','')
-	name = request.args.get('name','')
-
+def recode(seq=None,seqtype=None,name=None):
+	
+	seq = session['seq']
+	seqtype = session['seqtype']
+	name = session['name']
+	
 	BsaI_F = "GGTCTC"
 	BsaI_F_replace = ["GGACTC","GGTCCC","GGTATC"]
 	BsaI_R = "GAGACC"
@@ -143,6 +146,6 @@ def export():
 
 if __name__ == "__main__":
  	port = int(os.environ.get('PORT', 5000))	
-	serve(app, host="0.0.0.0", port=port, url_prefix='/static')
+	serve(app, host="0.0.0.0", port=port)
 	#serve(wsgiapp, listen='*:8080')  
 	#app.run(debug=True, host="0.0.0.0", port=5000)
