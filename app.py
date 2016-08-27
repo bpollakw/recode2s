@@ -121,7 +121,7 @@ def export():
 	
 	strand = 1;
 	location = FeatureLocation(11, len(seq)-11, strand = strand);
-	record.features.append( SeqFeature( location = location, strand = strand, type=seq_type, id=name ))
+	record.features.append( SeqFeature( location = location, strand = strand, type=seq_type, id=name, qualifiers={"key": name} ))
 	
 	location = FeatureLocation(0, 6, strand = strand);
 	record.features.append( SeqFeature( location = location, strand = strand, type="BsaI_F", id="BsaI"))

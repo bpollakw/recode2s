@@ -72,18 +72,18 @@ function recode(name, seq, newseq, type){
 	else if (type == "CDS" && seq.substring(0,3) != "ATG"){
 		alert("cds does not start with ATG. Check sequence!")
 	}
-	else if (type == 'Promoter' && typeof changed == 'undefined'){
+	else if (type == 'promoter' && typeof changed == 'undefined'){
 			front = "GGTCTCAGGAG"
 			back = "CCATCGAGACC"
 			add=11;
 	}
-	else if (type == 'Promoter' && typeof changed != 'undefined'){}
-	else if (type == 'Terminator' && typeof changed == 'undefined'){
+	else if (type == 'promoter' && typeof changed != 'undefined'){}
+	else if (type == 'terminator' && typeof changed == 'undefined'){
 			front = "GGTCTCAGCTT"
 			back = "CGCTTGAGACC"
 			add=11;
 	}
-	else if (type == 'Terminator' && typeof changed != 'undefined'){}
+	else if (type == 'terminator' && typeof changed != 'undefined'){}
 	else{
 		console.log(type)
 		alert("Recode is for promoters, cdss and terminators")
