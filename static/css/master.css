@@ -171,11 +171,11 @@ a {
 }
 
 .footer a{
-	color: red;
+	color: white;
 }
 
 .footer a:hover{
-	color: white;
+	color: red;
 }
 
 .footer-text {
