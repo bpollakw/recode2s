@@ -9,9 +9,9 @@
 {% endblock %}
 {% block content %}
 
-		<h1 class="title"><a href="/">Recode2S</a> - DNA recoding to type II-S parts</h1>
+		<h1 class="title"><a href="/">Recode2s</a> - DNA recoding to type II-S parts</h1>
 
-	<div class="description">
+		<div class="description">
 		
 		<h3 id="message">{{BsaI|length}} BsaI and {{SapI|length}} SapI restriction site(s) were found.</h3>
 	
@@ -23,7 +23,7 @@
 				<button id="recode_btn" class="button right" onclick="recode('{{name}}','{{seq}}','{{newseq}}', '{{seqtype}}','{{BsaI}}','{{SapI}}')">Recode</button>
 			</div>
 				
-				{% if seqtype == "cds" %}
+				{% if seqtype == "CDS" %}
 					<select class="selector right" id="selector" class="right" name="Fusion" type="text" onchange="change_overhangs(value);">
 						<option value="N">N-terminal fusion</option>
 						<option value="None" selected>No fusion</option>
@@ -54,6 +54,7 @@
 			clipboard.on('error', function(e) {
 				showTooltip(e.trigger, fallbackMessage(e.action));
 			});
+//			console.log("{{seqtype}}")
 			BsaI = {{BsaI}};
 			SapI = {{SapI}};
 			seq = "{{seq}}";

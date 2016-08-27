@@ -59,7 +59,7 @@ function highlight_sites(){
 
 function recode(name, seq, newseq, type){	
 
-	if (type == 'cds' && seq.substring(0,3) == "ATG"){
+	if (type == "CDS" && seq.substring(0,3) == "ATG"){
 		if (typeof changed !== 'undefined'){
 
 		}
@@ -69,7 +69,7 @@ function recode(name, seq, newseq, type){
 			add=8;
 		}
 	}
-	else if (type == 'cds' && seq.substring(0,3) != "ATG"){
+	else if (type == "CDS" && seq.substring(0,3) != "ATG"){
 		alert("cds does not start with ATG. Check sequence!")
 	}
 	else if (type == 'Promoter' && typeof changed == 'undefined'){
@@ -85,6 +85,7 @@ function recode(name, seq, newseq, type){
 	}
 	else if (type == 'Terminator' && typeof changed != 'undefined'){}
 	else{
+		console.log(type)
 		alert("Recode is for promoters, cdss and terminators")
 	}
 	newseq = front+newseq+back
