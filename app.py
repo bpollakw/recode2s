@@ -34,30 +34,20 @@ def recfind(pattern, string, where_should_I_start=0):
     return [pos] + recfind(pattern, string, pos + len(pattern))
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
+				
+	return render_template('home.html')
+
+@app.route('/recode', methods=['POST'])
+def recode():
 	
 	if request.method == 'POST':
 		seq = request.form["seq"]
 		seq = seq.upper()
 		seq = re.sub(' ','',seq).strip()
-		session['seq'] = seq
-		session['seqtype'] = request.form["seqtype"]
-		session['name'] = request.form["name"]
-		
-		if seq !="":
-			return redirect(url_for('recode'))
-		else:
-			abort(404)
-			
-	return render_template('home.html')
-
-@app.route('/recode')
-def recode(seq=None,seqtype=None,name=None):
-	
-	seq = session['seq']
-	seqtype = session['seqtype']
-	name = session['name']
+		seqtype = request.form["seqtype"]
+		name = request.form["name"]
 	
 	BsaI_F = "GGTCTC"
 	BsaI_F_replace = ["GGaCTC","GGTCcC","GGTaTC"]
