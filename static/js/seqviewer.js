@@ -74,7 +74,7 @@ function recode(name, seq, newseq, type){
 	}
 	else if (type == 'promoter' && typeof changed == 'undefined'){
 			front = "GGTCTCAGGAG"
-			back = "CCATCGAGACC"
+			back = "AATGCGAGACC"
 			add=11;
 	}
 	else if (type == 'promoter' && typeof changed != 'undefined'){}
