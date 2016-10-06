@@ -32,6 +32,7 @@
 						<option value="P">Promoter</option>
 						<option value="PU" selected>Promoter+5'UTR</option>
 					</select>
+				{% elif seqtype == "full" %}
 				{% else %}
 					<select class="selector right" id="selector" class="right" name="Fusion" type="text" onchange="change_overhangs(value);">
 						<option value="T">Terminator</option>

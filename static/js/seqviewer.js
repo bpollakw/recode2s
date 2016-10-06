@@ -84,6 +84,11 @@ function recode(name, seq, newseq, type){
 			add=11;
 	}
 	else if (type == 'terminator' && typeof changed != 'undefined'){}
+	else if (type == 'full' && typeof changed == 'undefined'){
+			front = "GGTCTCAGGAG"
+			back = "CGCTTGAGACC"
+			add=11;
+	}
 	else{
 		console.log(type)
 		alert("Recode is for promoters, cdss and terminators")
