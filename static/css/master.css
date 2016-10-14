@@ -10,7 +10,6 @@
 *{
 	font-family: Lato, Helvetica, Arial, Sans-serif;
 	font-weight: normal;
-	color: #555;
 	margin: 0;
 	padding: 0;
 	-moz-box-sizing: border-box;
@@ -38,11 +37,13 @@ h1{
 	text-align: center;
 	font-size:36px;
 	padding-bottom: 20px;
+	color:#111;
 }
 
 h2{
 	margin-top: 20px;
 	margin-bottom: 10px;
+	color: Black;
 }
 
 h2.subtitle{
@@ -55,7 +56,7 @@ h2.subtitle{
 
 h2.section{
 	font-size: 25px;
-	color:#39c;
+	color:#BBB;
   	font-weight:400;
 }
 
@@ -112,6 +113,7 @@ a {
 .big-label{
 	font-size: 16px;
 	margin-bottom: 7px;
+	color: black;
 }
 
 .button{
@@ -146,6 +148,7 @@ a {
 	width: 70%;
 	margin-left: auto;
 	margin-right: auto;
+	text-align: justify;
 }
 
 .content{
@@ -224,6 +227,7 @@ a {
 	min-height : 200px;
 	border-radius: 5px;
 	border: 1px solid #CCC; 
+	color: #777;
 	outline:0;
 	text-align: left;
 	vertical-align: super;
