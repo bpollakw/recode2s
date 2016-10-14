@@ -57,7 +57,7 @@ function highlight_sites(){
 	seqViewer.coverage(sequenceCoverage);
 }
 
-function recode(name, seq, newseq, type){	
+function recode(name, seq, newseq){	
 
 	if (type == "CDS" && seq.substring(0,3) == "ATG"){
 		if (typeof changed !== 'undefined'){
@@ -70,7 +70,7 @@ function recode(name, seq, newseq, type){
 		}
 	}
 	else if (type == "CDS" && seq.substring(0,3) != "ATG"){
-		alert("cds does not start with ATG. Check sequence!")
+		alert("CDS does not start with ATG. Check sequence!")
 	}
 	else if (type == 'promoter' && typeof changed == 'undefined'){
 			front = "GGTCTCAGGAG"
@@ -84,7 +84,7 @@ function recode(name, seq, newseq, type){
 			add=11;
 	}
 	else if (type == 'terminator' && typeof changed != 'undefined'){}
-	else if (type == 'full' && typeof changed == 'undefined'){
+	else if (type == 'gene'){
 			front = "GGTCTCAGGAG"
 			back = "CGCTTGAGACC"
 			add=11;
@@ -150,7 +150,8 @@ function recode(name, seq, newseq, type){
 		delete changed;
    	}	  
   }
-function export_GB(name, seqtype){
-	link = "/export?"+"seq="+recodedseq+"&type="+seqtype+"&name="+name
+function export_GB(name){
+	console.log(add);
+	link = "/export?"+"seq="+recodedseq+"&type="+type+"&name="+name+"&add="+add
 	location.href=link;
 }

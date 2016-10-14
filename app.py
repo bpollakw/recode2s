@@ -18,9 +18,9 @@ app.secret_key = 'HJKDGSA&^D%HJKN.zczxcoasdk2194uru'
 #def page_not_found(e):
 #    return render_template('404.html', title='404'), 404
 
-@app.errorhandler(500)
-def internal_error(e):
-	return render_template('500.html', title='500'), 500
+#@app.errorhandler(500)
+#def internal_error(e):
+#	return render_template('500.html', title='500'), 500
 
 # Helper function for recursive search of restriction sites
 			
@@ -46,7 +46,6 @@ def recode():
 		seq = request.form["seq"]
 		seq = seq.upper()
 		seq = re.sub(' ','',seq).strip()
-		seqtype = request.form["seqtype"]
 		name = request.form["name"]
 	
 	BsaI_F = "GGTCTC"
@@ -94,16 +93,21 @@ def recode():
 					
 	BsaI_sites = BsaI_sitesF+BsaI_sitesR
 	SapI_sites = SapI_sitesF+SapI_sitesR
+	session["BsaI"] = BsaI_sites
+	session["SapI"] = SapI_sites
 	
 
-	return render_template('recode.html', seq=orgseq, newseq=seq, seqtype=seqtype, name=name,BsaI=BsaI_sites, SapI=SapI_sites)
+	return render_template('recode.html', seq=orgseq, newseq=seq, name=name,BsaI=BsaI_sites, SapI=SapI_sites)
 
 @app.route('/export')
 def export():
 	name = request.args.get('name','')
 	seq = request.args.get('seq','')
 	seq_type = request.args.get('type','')
-	
+	add = request.args.get('add','')
+	BsaI = session.get("BsaI", None)
+	SapI = session.get("SapI", None)
+	add = int(add)
 	if not name:
 		return ('', 204)
 
@@ -117,17 +121,24 @@ def export():
 	record.features.append( SeqFeature( location = location, strand = strand, type="BsaI_F", id="BsaI"))
 	
 	location = FeatureLocation(7, 11, strand = strand);
-	record.features.append( SeqFeature( location = location, strand = strand, type="misc_feature", id="Overhang" ))
+	record.features.append( SeqFeature( location = location, strand = strand, type="misc_feature", id="Overhang", qualifiers={"key": "Overhang"} ))
 
+		
+	for site in BsaI:
+		location = FeatureLocation(site+add, site+add+6, strand = strand);
+		record.features.append( SeqFeature( location = location, strand = strand, type="modified_base", id="BsaI_mut", qualifiers={"key": "BsaI_mut"} ))
+	
+	for site in SapI:
+		location = FeatureLocation(site+add, site+add+7, strand = strand);
+		record.features.append( SeqFeature( location = location, strand = strand, type="modified_base", id="SapI_mut", qualifiers={"key": "SapI_mut"} ))
+		
 	strand = -1;
 	location = FeatureLocation(len(seq)-6, len(seq), strand = strand);
 	record.features.append( SeqFeature( location = location, strand = strand, type="BsaI_R", id="BsaI" ))
-	
 
 	location = FeatureLocation(len(seq)-11, len(seq)-7, strand = strand);
-	record.features.append( SeqFeature( location = location, strand = strand, type="misc_feature", id="Overhang" ))
-
-
+	record.features.append( SeqFeature( location = location, strand = strand, type="misc_feature", id="Overhang", qualifiers={"key": "Overhang"} ))
+	
 	response = make_response(record.format("gb"))
 	response.headers["Content-Type"] = "application/octet-stream"
 	response.headers["Content-Disposition"] = "attachement; filename={0}".format(name+'.gb')
@@ -137,5 +148,3 @@ def export():
 if __name__ == "__main__":
  	port = int(os.environ.get('PORT', 5000))	
 	serve(app, host="0.0.0.0", port=port)
-	#serve(wsgiapp, listen='*:8080')  
-	#app.run(debug=True, host="0.0.0.0", port=5000)

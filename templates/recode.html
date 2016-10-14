@@ -8,6 +8,38 @@
 	<script src="{{ url_for('static', filename='js/clipboard_tooltip.js')}}"></script>
 {% endblock %}
 {% block content %}
+	<script>
+		function show(program){
+			if (program.startsWith('promoter')){
+				$(".promoter-col").removeClass("hidden");
+				$(".cds-col").addClass("hidden");
+				$(".term-col").addClass("hidden");
+				delete changed;
+				type = program;
+			}
+			else if (program.startsWith('CDS')){
+				$(".cds-col").removeClass("hidden");
+				$(".promoter-col").addClass("hidden");
+				$(".term-col").addClass("hidden");
+				type = program;
+				delete changed;
+			}
+			else if (program.startsWith('terminator')){
+				$(".term-col").removeClass("hidden");
+				$(".cds-col").addClass("hidden");
+				$(".promoter-col").addClass("hidden");
+				type = program;
+				delete changed;
+			}
+			else{
+				$(".promoter-col").addClass("hidden");
+				$(".cds-col").addClass("hidden");
+				$(".term-col").addClass("hidden");
+				type = program;
+				delete changed;
+			}
+		}
+	</script>
 
 		<div class="description">
 		
@@ -17,29 +49,36 @@
 			
 			<div id="clipboard">
 				<button id="clipboard_btn" class="button right" data-clipboard-text="">Copy</button>
-				<button id="download_gb_btn" class="button right" onclick="export_GB('{{name}}','{{seqtype}}')">Genbank file</button>
-				<button id="recode_btn" class="button right" onclick="recode('{{name}}','{{seq}}','{{newseq}}', '{{seqtype}}','{{BsaI}}','{{SapI}}')">Recode</button>
+				<button id="download_gb_btn" class="button right" onclick="export_GB('{{name}}')">Genbank file</button>
+				<button id="recode_btn" class="button right" onclick="recode('{{name}}','{{seq}}','{{newseq}}', '{{BsaI}}','{{SapI}}')">Recode</button>
 			</div>
-				
-				{% if seqtype == "CDS" %}
-					<select class="selector right" id="selector" class="right" name="Fusion" type="text" onchange="change_overhangs(value);">
-						<option value="N">N-terminal fusion</option>
-						<option value="None" selected>No fusion</option>
-						<option value="C">C-terminal fusion</option>
-					</select>
-				{% elif seqtype == "promoter" %}
-					<select class="selector right" id="selector" class="right" name="Fusion" type="text" onchange="change_overhangs(value);">
-						<option value="P">Promoter</option>
-						<option value="PU" selected>Promoter+5'UTR</option>
-					</select>
-				{% elif seqtype == "full" %}
-				{% else %}
-					<select class="selector right" id="selector" class="right" name="Fusion" type="text" onchange="change_overhangs(value);">
-						<option value="T">Terminator</option>
-						<option value="UT" selected>3'UTR+Terminator</option>
-					</select>
-				{% endif %}
-	</div>
+			
+				<label class="small-label left">Part type</label>
+				<select class="selector left" style="margin-right: 10px;" id="selector" class="left" name="seqtype" type="text" onChange="show(this.value)">
+					<option value="promoter">Promoter</option>
+					<option value="CDS">CDS</option>
+					<option value="terminator">Terminator</option>
+					<option value="gene" selected>Full TU</option>
+				</select>
+
+				<select class="cds-col selector left hidden" id="selector" class="right" name="Fusion" type="text" onchange="change_overhangs(value);">
+					<option value="N">N-terminal fusion</option>
+					<option value="None" selected>No fusion</option>
+					<option value="C">C-terminal fusion</option>
+				</select>
+
+				<select class="promoter-col selector left hidden" id="selector" class="right" name="Fusion" type="text" onchange="change_overhangs(value);">
+					<option value="P">Promoter</option>
+					<option value="PU" selected>Promoter+5'UTR</option>
+				</select>
+
+
+				<select class="term-col selector left hidden" id="selector" class="right" name="Fusion" type="text" onchange="change_overhangs(value);">
+					<option value="T">Terminator</option>
+					<option value="UT" selected>3'UTR+Terminator</option>
+				</select>
+
+		</div>
 		<script>
 			
 		$(function(){
@@ -53,7 +92,8 @@
 			clipboard.on('error', function(e) {
 				showTooltip(e.trigger, fallbackMessage(e.action));
 			});
-//			console.log("{{seqtype}}")
+			
+			type = "gene";
 			BsaI = {{BsaI}};
 			SapI = {{SapI}};
 			seq = "{{seq}}";
@@ -69,4 +109,3 @@
 	</script>
 
 {% endblock %}
-
