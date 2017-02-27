@@ -115,29 +115,29 @@ def export():
 	
 	strand = 1;
 	location = FeatureLocation(11, len(seq)-11, strand = strand);
-	record.features.append( SeqFeature( location = location, strand = strand, type=seq_type, id=name, qualifiers={"key": name} ))
+	record.features.append( SeqFeature( location = location, strand = strand, type=seq_type, id=name, qualifiers={"label": name} ))
 	
 	location = FeatureLocation(0, 6, strand = strand);
 	record.features.append( SeqFeature( location = location, strand = strand, type="BsaI_F", id="BsaI"))
 	
 	location = FeatureLocation(7, 11, strand = strand);
-	record.features.append( SeqFeature( location = location, strand = strand, type="misc_feature", id="Overhang", qualifiers={"key": "Overhang"} ))
+	record.features.append( SeqFeature( location = location, strand = strand, type="misc_feature", id="Overhang", qualifiers={"label": "Overhang"} ))
 
 		
 	for site in BsaI:
 		location = FeatureLocation(site+add, site+add+6, strand = strand);
-		record.features.append( SeqFeature( location = location, strand = strand, type="modified_base", id="BsaI_mut", qualifiers={"key": "BsaI_mut"} ))
+		record.features.append( SeqFeature( location = location, strand = strand, type="modified_base", id="BsaI_mut", qualifiers={"label": "BsaI_mut"} ))
 	
 	for site in SapI:
 		location = FeatureLocation(site+add, site+add+7, strand = strand);
-		record.features.append( SeqFeature( location = location, strand = strand, type="modified_base", id="SapI_mut", qualifiers={"key": "SapI_mut"} ))
+		record.features.append( SeqFeature( location = location, strand = strand, type="modified_base", id="SapI_mut", qualifiers={"label": "SapI_mut"} ))
 		
 	strand = -1;
 	location = FeatureLocation(len(seq)-6, len(seq), strand = strand);
 	record.features.append( SeqFeature( location = location, strand = strand, type="BsaI_R", id="BsaI" ))
 
 	location = FeatureLocation(len(seq)-11, len(seq)-7, strand = strand);
-	record.features.append( SeqFeature( location = location, strand = strand, type="misc_feature", id="Overhang", qualifiers={"key": "Overhang"} ))
+	record.features.append( SeqFeature( location = location, strand = strand, type="misc_feature", id="Overhang", qualifiers={"label": "Overhang"} ))
 	
 	response = make_response(record.format("gb"))
 	response.headers["Content-Type"] = "application/octet-stream"
