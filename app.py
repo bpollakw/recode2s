@@ -14,13 +14,13 @@ app = Flask(__name__, static_url_path="", static_folder="static")
 app.secret_key = 'HJKDGSA&^D%HJKN.zczxcoasdk2194uru'
 
 
-#@app.errorhandler(404)
-#def page_not_found(e):
-#    return render_template('404.html', title='404'), 404
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html', title='404'), 404
 
-#@app.errorhandler(500)
-#def internal_error(e):
-#	return render_template('500.html', title='500'), 500
+@app.errorhandler(500)
+def internal_error(e):
+	return render_template('500.html', title='500'), 500
 
 # Helper function for recursive search of restriction sites
 			

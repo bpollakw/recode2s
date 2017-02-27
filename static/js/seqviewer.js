@@ -119,8 +119,13 @@ function recode(name, seq, newseq){
 
 	var button = document.getElementById('clipboard_btn');
 	button.setAttribute('data-clipboard-text', recodedseq)
+	
+	document.getElementById('clipboard_btn').style.display = 'block'
+	document.getElementById('download_gb_btn').style.display = 'block'
+	
 
-					}
+}
+
   function change_overhangs(i) {
     if (i == "N"){
 		changed ="yes";
