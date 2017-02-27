@@ -33,7 +33,16 @@ def recfind(pattern, string, where_should_I_start=0):
     # No need for an else statement
     return [pos] + recfind(pattern, string, pos + len(pattern))
 
-
+def check(seq, sites):
+	found = 0
+	for site in sites:
+		a = seq.find(site, 0, len(seq))
+		if a != -1:
+			found = found + 1
+	print found
+	return found
+	
+	
 @app.route('/')
 def index():
 				
@@ -45,7 +54,9 @@ def recode():
 	if request.method == 'POST':
 		seq = request.form["seq"]
 		seq = seq.upper()
-		seq = re.sub(' ','',seq).strip()
+		seq = re.sub('\s+','',seq).strip()
+		seq = re.sub('[0-9]','',seq)
+		
 		name = request.form["name"]
 	
 	BsaI_F = "GGTCTC"
@@ -57,7 +68,9 @@ def recode():
 	SapI_R = "GAAGAGC"
 	SapI_R_replace = ["GAgGAGC","GAAGgGC","GAAaAGC"]
 	
-#	ATGGGTCTCAGGTCTCAAGGTCTCAAAGGTCTCGGTCTCGGTCTCGAGACCAAGAGACCAAAGAGACCGAGACCAGAGACCGAGACCGCTCTTCAGCTCTTCAAGCTCTTCAAAGCTCTTCGAAGAGCAGAAGAGCAAGAAGAGCAAAGAAGAGCGAAGAGC
+	sites = ["GGTCTC","GAGACC","GCTCTTC","GAAGAGC"]
+	
+#		ATGGGTCTCAGGTCTCAAGGTCTCAAAGGTCTCGGTCTCGGTCTCGAGACCAAGAGACCAAAGAGACCGAGACCAGAGACCGAGACCGCTCTTCAGCTCTTCAAGCTCTTCAAAGCTCTTCGAAGAGCAGAAGAGCAAGAAGAGCAAAGAAGAGCGAAGAGC
 	
 	BsaI_sitesF = []
 	BsaI_sitesR = []
@@ -96,9 +109,17 @@ def recode():
 	session["BsaI"] = BsaI_sites
 	session["SapI"] = SapI_sites
 	
-
-	return render_template('recode.html', seq=orgseq, newseq=seq, name=name,BsaI=BsaI_sites, SapI=SapI_sites)
-
+	verify = check(seq,sites)
+	if verify == 0:
+		return render_template('recode.html', seq=orgseq, newseq=seq, name=name,BsaI=BsaI_sites, SapI=SapI_sites)
+	elif verify != 0:
+		return url_for('singularity')
+		
+@app.route('/singularity')
+def singularity():
+	return render_template('singularity.html')
+	
+		
 @app.route('/export')
 def export():
 	name = request.args.get('name','')
