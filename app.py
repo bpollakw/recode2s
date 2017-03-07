@@ -39,7 +39,6 @@ def check(seq, sites):
 		a = seq.find(site, 0, len(seq))
 		if a != -1:
 			found = found + 1
-	print found
 	return found
 	
 	

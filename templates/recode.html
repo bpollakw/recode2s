@@ -16,6 +16,8 @@
 				$(".term-col").addClass("hidden");
 				delete changed;
 				type = program;
+				$("#terminator").prop('selectedIndex',0);
+				$("#CDS").prop('selectedIndex',0);
 			}
 			else if (program.startsWith('CDS')){
 				$(".cds-col").removeClass("hidden");
@@ -23,6 +25,8 @@
 				$(".term-col").addClass("hidden");
 				type = program;
 				delete changed;
+				$("#terminator").prop('selectedIndex',0);
+				$("#promoter").prop('selectedIndex',0);
 			}
 			else if (program.startsWith('terminator')){
 				$(".term-col").removeClass("hidden");
@@ -30,6 +34,8 @@
 				$(".promoter-col").addClass("hidden");
 				type = program;
 				delete changed;
+				$("#CDS").prop('selectedIndex',0);
+				$("#promoter").prop('selectedIndex',0);
 			}
 			else{
 				$(".promoter-col").addClass("hidden");
@@ -37,6 +43,9 @@
 				$(".term-col").addClass("hidden");
 				type = program;
 				delete changed;
+				$("#CDS").prop('selectedIndex',0);
+				$("#promoter").prop('selectedIndex',0);
+				$("#terminator").prop('selectedIndex',0);
 			}
 		}
 	</script>
@@ -61,23 +70,23 @@
 					<option value="gene" selected>Full TU</option>
 				</select>
 
-				<select class="cds-col selector left hidden" id="selector" class="right" name="Fusion" type="text" onchange="change_overhangs(value);">
-					<option value="N">N-terminal fusion</option>
+				<select class="cds-col selector left hidden" id="CDS" class="right" name="Fusion" type="text" onchange="change_overhangs(value);">
 					<option value="None" selected>No fusion</option>
-					<option value="C">C-terminal fusion</option>
+					<option value="N">N-TAG</option>
+					<option value="CF">CDS1+2 for CTAG fusion</option>
+					<option value="C">C-TAG</option>
 				</select>
 
-				<select class="promoter-col selector left hidden" id="selector" class="right" name="Fusion" type="text" onchange="change_overhangs(value);">
+				<select class="promoter-col selector left hidden" id="promoter" class="right" name="Fusion" type="text" onchange="change_overhangs(value);">
+					<option value="None" selected>Promoter+5'UTR</option>
 					<option value="P">Promoter</option>
-					<option value="PU" selected>Promoter+5'UTR</option>
 				</select>
 
 
-				<select class="term-col selector left hidden" id="selector" class="right" name="Fusion" type="text" onchange="change_overhangs(value);">
+				<select class="term-col selector left hidden" id="terminator" class="right" name="Fusion" type="text" onchange="change_overhangs(value);">
+					<option value="None" selected>3'UTR+Terminator</option>
 					<option value="T">Terminator</option>
-					<option value="UT" selected>3'UTR+Terminator</option>
 				</select>
-
 		</div>
 		<script>
 			

@@ -61,13 +61,34 @@ function recode(name, seq, newseq){
 
 	if (type == "CDS" && seq.substring(0,3) == "ATG"){
 		if (typeof changed !== 'undefined'){
-
+			if(changed == 'CF'){ 
+				front = "GGTCTCAA";
+				back = "GCTTCGTGAGACC";
+				add=8;
+				if (newseq.endsWith("TAG") || newseq.endsWith("TGA") || newseq.endsWith("TAA")){
+					newseq = newseq.substring(0, newseq.length-3)
+				}
+			}
+			else if(changed == 'C'){
+				front = "GGTCTCATTCG";
+				back = "GCTTTGAGACC";
+				add=11;
+			}
+			else if(changed == 'N'){ 
+				front = "GGTCTCACC";
+				back = "GCAATGTGAGACC";
+				add=9;
+				if (newseq.endsWith("TAG") || newseq.endsWith("TGA") || newseq.endsWith("TAA")){
+					newseq = newseq.substring(0, newseq.length-3)
+				}
+			}
 		}
 		else if(typeof changed == 'undefined'){
 			front = "GGTCTCAA";
 			back = "GCTTCGAGACC";
 			add=8;
 		}
+		
 	}
 	else if (type == "CDS" && seq.substring(0,3) != "ATG"){
 		alert("CDS does not start with ATG. Check sequence!")
@@ -77,13 +98,21 @@ function recode(name, seq, newseq){
 			back = "AATGCGAGACC"
 			add=11;
 	}
-	else if (type == 'promoter' && typeof changed != 'undefined'){}
+	else if (type == 'promoter' && typeof changed != 'undefined'){
+			front = "GGTCTCAGGAG";
+			back = "TACTTGAGACC";
+			add=11;
+	}
 	else if (type == 'terminator' && typeof changed == 'undefined'){
 			front = "GGTCTCAGCTT"
 			back = "CGCTTGAGACC"
 			add=11;
 	}
-	else if (type == 'terminator' && typeof changed != 'undefined'){}
+	else if (type == 'terminator' && typeof changed != 'undefined'){
+			front = "GGTCTCAGGTA";
+			back = "CGCTTGAGACC";
+			add=11;
+	}
 	else if (type == 'gene'){
 			front = "GGTCTCAGGAG"
 			back = "CGCTTGAGACC"
@@ -91,7 +120,7 @@ function recode(name, seq, newseq){
 	}
 	else{
 		console.log(type)
-		alert("Recode is for promoters, cdss and terminators")
+		alert("Recode is for promoters, CDSs and terminators")
 	}
 	newseq = front+newseq+back
 	recodedseq = newseq
@@ -126,32 +155,12 @@ function recode(name, seq, newseq){
 
 }
 
-  function change_overhangs(i) {
-    if (i == "N"){
-		changed ="yes";
-		front = "GGTCTCACC";
-		back = "AATGTGAGACC";
-		add=9;
+function change_overhangs(i) {
+	changed = i
+	if (changed == "N" || changed == "P" || changed == "C" || changed == "CF" || changed == "T"){
+		changed = changed
 	}
-	else if (i == "C"){
-		changed ="yes";
-		front = "GGTCTCATTCG";
-		back = "GCTTTGAGACC";
-		add=11;
-   	}
-  	else if (i == "P"){
-		changed ="yes";
-		front = "GGTCTCAGGAG";
-		back = "TACTTGAGACC";
-		add=11;
-   	}
-  	else if (i == "T"){
-		changed ="yes";
-		front = "GGTCTCAGGTA";
-		back = "CGCTTGAGACC";
-		add=11;
-   	}
-   	else{ 
+	else{ 
 		delete changed;
    	}	  
   }
