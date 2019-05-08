@@ -62,14 +62,16 @@
 				<button id="recode_btn" class="button right" onclick="recode('{{name}}','{{seq}}','{{newseq}}', '{{BsaI}}','{{SapI}}')">Recode</button>
 			</div>
 			
-				<label class="small-label left">Part type</label>
-				<select class="selector left" style="margin-right: 10px;" id="selector" class="left" name="seqtype" type="text" onChange="show(this.value)">
+				
+				<select class="select-css right" style="margin-right: 10px;" id="selector" class="right" name="seqtype" type="text" onChange="show(this.value)">
 					<option value="promoter">Promoter</option>
 					<option value="CDS">CDS</option>
+					<option value="CTAG">CTAG</option>
 					<option value="terminator">Terminator</option>
 					<option value="gene" selected>Full TU</option>
 				</select>
-
+				<label class="small-label right">Part type</label>
+<!-- No more hidden fields
 				<select class="cds-col selector left hidden" id="CDS" class="right" name="Fusion" type="text" onchange="change_overhangs(value);">
 					<option value="None" selected>No fusion</option>
 					<option value="N">N-TAG</option>
@@ -87,6 +89,7 @@
 					<option value="None" selected>3'UTR+Terminator</option>
 					<option value="T">Terminator</option>
 				</select>
+-->
 		</div>
 		<script>
 			

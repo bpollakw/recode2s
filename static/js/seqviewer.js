@@ -58,17 +58,17 @@ function highlight_sites(){
 }
 
 function recode(name, seq, newseq){	
-
+// This whole function should be cleared but can't figure out how I made it work. All sub-options are depreciated.
 	if (type == "CDS" && seq.substring(0,3) == "ATG"){
-		if (typeof changed !== 'undefined'){
-			if(changed == 'CF'){ 
+		/*if (typeof changed !== 'undefined'){
+			if(changed == 'CF'){ */
 				front = "GGTCTCAA";
-				back = "GCTTCGTGAGACC";
+				back = "GCAGGTTGAGACC";
 				add=8;
 				if (newseq.endsWith("TAG") || newseq.endsWith("TGA") || newseq.endsWith("TAA")){
 					newseq = newseq.substring(0, newseq.length-3)
 				}
-			}
+			/*}
 			else if(changed == 'C'){
 				front = "GGTCTCATTCG";
 				back = "GCTTTGAGACC";
@@ -81,16 +81,16 @@ function recode(name, seq, newseq){
 				if (newseq.endsWith("TAG") || newseq.endsWith("TGA") || newseq.endsWith("TAA")){
 					newseq = newseq.substring(0, newseq.length-3)
 				}
-			}
+			
 		}
 		else if(typeof changed == 'undefined'){
 			front = "GGTCTCAA";
-			back = "GCTTCGAGACC";
+			back = "GCAGGTTGAGACC";
 			add=8;
-		}
+		}}*/
 		
 	}
-	else if (type == "CDS" && seq.substring(0,3) != "ATG"){
+	else if (type == "CDS" || type == "CTAG" && seq.substring(0,3) != "ATG"){
 		alert("CDS does not start with ATG. Check sequence!")
 	}
 	else if (type == 'promoter' && typeof changed == 'undefined'){
@@ -116,6 +116,11 @@ function recode(name, seq, newseq){
 	else if (type == 'gene'){
 			front = "GGTCTCAGGAG"
 			back = "CGCTTGAGACC"
+			add=11;
+	}
+	else if (type == 'CTAG'){
+			front = "GGTCTCAAGGT"
+			back = "GCTTTGAGACC"
 			add=11;
 	}
 	else{
