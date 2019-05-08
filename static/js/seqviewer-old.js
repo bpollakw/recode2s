@@ -59,51 +59,69 @@ function highlight_sites(){
 
 function recode(name, seq, newseq){	
 // This whole function should be cleared but can't figure out how I made it work. All sub-options are depreciated.
-	REseqF = "AAGCTCTTCATCC";
-	REseqR = "CGAAGAAGAGCAA";
-	REbp = 13;
-
 	if (type == "CDS" && seq.substring(0,3) == "ATG"){
-		
-				front = REseqF+"A";
-				back = "GCAGGT"+REseqR;
-				add=1+REbp;
+		/*if (typeof changed !== 'undefined'){
+			if(changed == 'CF'){ */
+				front = "GGTCTCAA";
+				back = "GCAGGTTGAGACC";
+				add=8;
 				if (newseq.endsWith("TAG") || newseq.endsWith("TGA") || newseq.endsWith("TAA")){
 					newseq = newseq.substring(0, newseq.length-3)
 				}
+			/*}
+			else if(changed == 'C'){
+				front = "GGTCTCATTCG";
+				back = "GCTTTGAGACC";
+				add=11;
+			}
+			else if(changed == 'N'){ 
+				front = "GGTCTCACC";
+				back = "GCAATGTGAGACC";
+				add=9;
+				if (newseq.endsWith("TAG") || newseq.endsWith("TGA") || newseq.endsWith("TAA")){
+					newseq = newseq.substring(0, newseq.length-3)
+				}
+			
+		}
+		else if(typeof changed == 'undefined'){
+			front = "GGTCTCAA";
+			back = "GCAGGTTGAGACC";
+			add=8;
+		}}*/
+		
 	}
 	else if (type == "CDS" || type == "CTAG" && seq.substring(0,3) != "ATG"){
 		alert("CDS does not start with ATG. Check sequence!")
 	}
 	else if (type == 'promoter' && typeof changed == 'undefined'){
-			front = REseqF+"GGAG"
-			back = "AATG"+REseqR;
-			add=4+REbp;
+			front = "GGTCTCAGGAG"
+			back = "AATGCGAGACC"
+			add=11;
 	}
 	else if (type == 'promoter' && typeof changed != 'undefined'){
-			front = REseqF+"GGAG";
-			back = "TACT"+REseqR;;
-			add=4+REbp;
+			front = "GGTCTCAGGAG";
+			back = "TACTTGAGACC";
+			add=11;
 	}
 	else if (type == 'terminator' && typeof changed == 'undefined'){
-			front = REseqF+"GCTT"
-			back = "CGCT"+REseqR;
-			add=4+REbp;
+			front = "GGTCTCAGCTT"
+			back = "CGCTTGAGACC"
+			add=11;
 	}
 	else if (type == 'terminator' && typeof changed != 'undefined'){
-			front = REseqF+"GGTA";
-			back = "CGCT"+REseqR;
-			add=4+REbp;
+			front = "GGTCTCAGGTA";
+			back = "CGCTTGAGACC";
+			add=11;
 	}
 	else if (type == 'gene'){
-			front = REseqF+"GGAG"
-			back = "CGCT"+REseqR;
-			add=4+REbp;
+			front = "GGTCTCAGGAG"
+			back = "CGCTTGAGACC"
+			add=11;
 	}
 	else if (type == 'CTAG'){
-			front = REseqF+"AGGT";
-			back = "GCTT"+REseqR;
-			add=4+REbp;
+			front = "GGTCTCAAGGT"
+			back = "GCTTTGAGACC"
+			add=11;
 	}
 	else{
 		console.log(type)
@@ -114,11 +132,9 @@ function recode(name, seq, newseq){
 	recoder(newseq, '#seqView', name+" - Recoded");
 	delete sequenceCoverage;
 	delete legend;
-	var highlight = [2,newseq.length-9]
-	var overhangs = [13,newseq.length-17]
-	var Sapioverhangs = [10,newseq.length-13]
-	sites(Sapioverhangs,3,"brown");
-	sites(highlight,7,"blue");
+	var highlight = [0,newseq.length-6]
+	var overhangs = [7,newseq.length-11]
+	sites(highlight,6,"blue");
 	sites(overhangs,4,"red");
 	// WTF?
 	for (var i = 0; i < BsaI.length; i++){
@@ -128,13 +144,12 @@ function recode(name, seq, newseq){
 		sites([SapI[i]+add],7,"green");
 	}
 
-	legende("SapI","blue");
+	legende("BsaI","blue");
 	legende("Old sites","green");
-	legende("Domestication overhangs","brown");
-	legende("Syntax overhangs","red");
+	legende("Overhangs","red");
 	add_legend();
 	highlight_sites();
-	document.getElementById("message").innerHTML = "BsaI & SapI sites recoded, SapI flanking sequences and overhangs for cloning into pL0R-lacZ added. L0 part specific syntax overhangs included";
+	document.getElementById("message").innerHTML = "BsaI & SapI sites recoded, BsaI flanking sequences and overhangs added.";
 
 	var button = document.getElementById('clipboard_btn');
 	button.setAttribute('data-clipboard-text', recodedseq)
@@ -156,6 +171,6 @@ function change_overhangs(i) {
   }
 function export_GB(name){
 	console.log(add);
-	link = "/export?"+"seq="+recodedseq+"&type="+type+"&name="+name+"&add="+add
+	link = "/export-old?"+"seq="+recodedseq+"&type="+type+"&name="+name+"&add="+add
 	location.href=link;
 }

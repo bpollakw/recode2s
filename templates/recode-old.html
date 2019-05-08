@@ -1,0 +1,123 @@
+{% extends "layout.html" %}
+{% block head %}
+	<!-- SEQVIEW -->
+	<script src="{{ url_for('static', filename='js/sequence-viewer.bundle.js')}}" type="text/javascript"></script>
+	<script src="{{ url_for('static', filename='js/seqviewer-old.js')}}"></script>
+	<!-- CLIPBOARD -->
+	<script src="{{ url_for('static', filename='js/clipboard.min.js')}}" type="text/javascript"></script>
+	<script src="{{ url_for('static', filename='js/clipboard_tooltip.js')}}"></script>
+{% endblock %}
+{% block content %}
+	<script>
+		function show(program){
+			if (program.startsWith('promoter')){
+				$(".promoter-col").removeClass("hidden");
+				$(".cds-col").addClass("hidden");
+				$(".term-col").addClass("hidden");
+				delete changed;
+				type = program;
+				$("#terminator").prop('selectedIndex',0);
+				$("#CDS").prop('selectedIndex',0);
+			}
+			else if (program.startsWith('CDS')){
+				$(".cds-col").removeClass("hidden");
+				$(".promoter-col").addClass("hidden");
+				$(".term-col").addClass("hidden");
+				type = program;
+				delete changed;
+				$("#terminator").prop('selectedIndex',0);
+				$("#promoter").prop('selectedIndex',0);
+			}
+			else if (program.startsWith('terminator')){
+				$(".term-col").removeClass("hidden");
+				$(".cds-col").addClass("hidden");
+				$(".promoter-col").addClass("hidden");
+				type = program;
+				delete changed;
+				$("#CDS").prop('selectedIndex',0);
+				$("#promoter").prop('selectedIndex',0);
+			}
+			else{
+				$(".promoter-col").addClass("hidden");
+				$(".cds-col").addClass("hidden");
+				$(".term-col").addClass("hidden");
+				type = program;
+				delete changed;
+				$("#CDS").prop('selectedIndex',0);
+				$("#promoter").prop('selectedIndex',0);
+				$("#terminator").prop('selectedIndex',0);
+			}
+		}
+	</script>
+
+		<div class="description">
+		
+		<h3 id="message">{{BsaI|length}} BsaI and {{SapI|length}} SapI restriction site(s) were found.</h3>
+	
+			<div id="seqView" class="seqView"></div>
+			
+			<div id="clipboard">
+				<button id="clipboard_btn" class="button right hidden" data-clipboard-text="">Copy</button>
+				<button id="download_gb_btn" class="button right hidden" onclick="export_GB('{{name}}')">Genbank file</button>
+				<button id="recode_btn" class="button right" onclick="recode('{{name}}','{{seq}}','{{newseq}}', '{{BsaI}}','{{SapI}}')">Recode</button>
+			</div>
+			
+				
+				<select class="select-css right" style="margin-right: 10px;" id="selector" class="right" name="seqtype" type="text" onChange="show(this.value)">
+					<option value="promoter">Promoter</option>
+					<option value="CDS">CDS</option>
+					<option value="CTAG">CTAG</option>
+					<option value="terminator">Terminator</option>
+					<option value="gene" selected>Full TU</option>
+				</select>
+				<label class="small-label right">Part type</label>
+<!-- No more hidden fields
+				<select class="cds-col selector left hidden" id="CDS" class="right" name="Fusion" type="text" onchange="change_overhangs(value);">
+					<option value="None" selected>No fusion</option>
+					<option value="N">N-TAG</option>
+					<option value="CF">CDS1+2 for CTAG fusion</option>
+					<option value="C">C-TAG</option>
+				</select>
+
+				<select class="promoter-col selector left hidden" id="promoter" class="right" name="Fusion" type="text" onchange="change_overhangs(value);">
+					<option value="None" selected>Promoter+5'UTR</option>
+					<option value="P">Promoter</option>
+				</select>
+
+
+				<select class="term-col selector left hidden" id="terminator" class="right" name="Fusion" type="text" onchange="change_overhangs(value);">
+					<option value="None" selected>3'UTR+Terminator</option>
+					<option value="T">Terminator</option>
+				</select>
+-->
+		</div>
+		<script>
+			
+		$(function(){
+			var clipboard = new Clipboard('#clipboard_btn');
+			$("#clipboard_btn").mouseleave(function(){
+				$(this).removeClass('tooltipped');
+				$(this).attr('aria-label', '');
+				$(this).attr('text', '');
+			});
+
+			clipboard.on('error', function(e) {
+				showTooltip(e.trigger, fallbackMessage(e.action));
+			});
+			
+			type = "gene";
+			BsaI = {{BsaI}};
+			SapI = {{SapI}};
+			seq = "{{seq}}";
+			recoder(seq, "#seqView", "{{name}}"+" - Original");
+			legende("BsaI", "blue");
+			legende("SapI", "green");
+			sites( {{BsaI}}, 6, "blue");
+			sites( {{SapI}}, 7, "green");
+			highlight_sites();
+			add_legend();
+		});
+			
+	</script>
+
+{% endblock %}
