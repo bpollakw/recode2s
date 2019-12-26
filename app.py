@@ -201,7 +201,7 @@ def export():
 	if not name:
 		return ('', 204)
 
-	record = SeqRecord( Seq( seq, IUPAC.unambiguous_dna ), name = name, description = name+"recoded to type IIs part", id=name)
+	record = SeqRecord( Seq( seq, IUPAC.unambiguous_dna ), name = name, description = name+"recoded to Type IIs part", id=name)
 	
 	strand = 1;
 	location = FeatureLocation(17, len(seq)-17, strand = strand);
@@ -253,7 +253,7 @@ def exportold():
 	if not name:
 		return ('', 204)
 
-	record = SeqRecord( Seq( seq, IUPAC.unambiguous_dna ), name = name, description = name+"recoded to type IIs part", id=name)
+	record = SeqRecord( Seq( seq, IUPAC.unambiguous_dna ), name = name, description = name+"recoded to Type IIs part", id=name)
 	
 	strand = 1;
 	location = FeatureLocation(11, len(seq)-11, strand = strand);

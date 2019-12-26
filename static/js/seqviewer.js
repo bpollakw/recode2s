@@ -130,7 +130,7 @@ function recode(name, seq, newseq){
 
 	legende("SapI","blue");
 	legende("Old sites","green");
-	legende("Domestication overhangs","brown");
+	legende("SapI overhangs","brown");
 	legende("Syntax overhangs","red");
 	add_legend();
 	highlight_sites();
@@ -141,10 +141,9 @@ function recode(name, seq, newseq){
 	
 	document.getElementById('clipboard_btn').style.display = 'block'
 	document.getElementById('download_gb_btn').style.display = 'block'
-	
-
 }
 
+//Don't think it does anything but I don't think it will work without this...
 function change_overhangs(i) {
 	changed = i
 	if (changed == "N" || changed == "P" || changed == "C" || changed == "CF" || changed == "T"){
